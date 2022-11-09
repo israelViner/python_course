@@ -18,7 +18,9 @@ Output: The program finds (via API) the 60 best jobs on 'thehackernews.com' webs
 # 3. Wiki_crawler
 
 This program downloads *all* images from multiple Wikipedia pages (starting from a specific page) recursively and randomly. 
+
 Input: The program asks the user for a specific link to the Wikipedia website, as well as a depth and a width arguments.
+
 Output: The program does the following:
 1. Downloads all the images from the selected Wikipedia page to its folder.
 2. Then it randomly selects a number of links - according to the number of the *width* argument - and recursively executes them.
@@ -27,6 +29,7 @@ Output: The program does the following:
 # 4. Github repositories
 
 This program performs a mathematical analysis to check the relationship between the number of downloads and  'stars' (likes) that projects in github have received, with the result shown in a graph that shows a straight line that reflects the lowest error between the number of downloads for a given number of stars, and the actual location points of the downloads. Both in the training set (which is 2/3 of the data) and in the prediction set (which is 1/3 of the data).
+
 Input: the program requests as input the number of project pages on which it will run the model (each such page will have 100 projects).
 
 Output: 
