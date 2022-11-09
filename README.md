@@ -28,7 +28,9 @@ Output: The program does the following:
 
 This program performs a mathematical analysis to check the relationship between the number of downloads and  'stars' (likes) that projects in github have received, with the result shown in a graph that shows a straight line that reflects the lowest error between the number of downloads for a given number of stars, and the actual location points of the downloads. Both in the training set (which is 2/3 of the data) and in the prediction set (which is 1/3 of the data).
 Input: the program requests as input the number of project pages on which it will run the model (each such page will have 100 projects).
-Output: 1. The program will extract the requested number of jobs from the API into the array.
+
+Output: 
+1. The program will extract the requested number of jobs from the API into the array.
 2. The program will start with two arrays, one for the star data and one for the download data.
 3. The program will then run a 'linear regression' model on these values that will check the error of the straight line that provides the minimum error in relation to these points, and display it in graph.
 
