@@ -32,7 +32,7 @@ Output:
 3. The program will then run a 'linear regression' model on these values to check the error of the straight line that provides the coefficient of determination in relation to these points, then display it on a graph.
 
 
-#5. k-nearest neighbors algorithm
+# 5. k-nearest neighbors algorithm
 
 This program uses the k-NN algorithm to find the number k that will provide the group of neighbors that will allow to predict with the highest degree of accuracy according to the characteristics of each flower (from the given data-set) the species to which it belongs.
 
@@ -47,7 +47,7 @@ The program performs 100 tests for each k value in the range between one and the
 At the end of the tests, the program selects the k-value that provided the highest accuracy, and returns the result of another test utilizing the k value received above, on an array that contains 1/3 of the data.
 
 
-#6. Gradient descent
+# 6. Gradient descent
 
 This program finds and displays the equation of the line closest to all points in a given dataset.
 
