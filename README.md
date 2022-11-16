@@ -46,7 +46,7 @@ Output:
 
 # 5. Gradient descent
 
-This program finds and displays the equation of the line closest to all points in a given dataset.
+This program finds and displays the equation of the line closest to all points in a given dataset, using the gradient descent algorithm, which makes it possible to iteratively find at each step a point that minimizes the error of the straight line, until the straight line with the minimum error is obtained, which is the closest straight line to all the points.
 
 Extensions: a. Another program finds the polynomial equation (of  second degree) closest to the points.
 
