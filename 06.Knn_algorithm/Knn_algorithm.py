@@ -6,7 +6,8 @@ import math
 #For throwing a certain warning 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
-#print('x' in np.arange(5)) 
+
+ITER_TRAIN = 100
 
 
 #Check the distance between 2 points by L2 model
@@ -19,58 +20,77 @@ def check_distance(point, test):
 
 
 #Send all of the points in the array to check distance, and return the k closest ones 
-def array_distance(data, index, k):
-	distance = [0]*len(data)
+def array_distance(data_train, data_test, index, k):
+	distance = [0]*len(data_train)
 	i = 0
-	for point in data:
-		distance[i] = [check_distance(data[index], point), i]
+	for j in range(len(data_train)):
+		distance[i] = [check_distance(data_test[index], data_train[j]), i]
 		i += 1
 	return sorted(distance)
 
 
 #Determine the group acoording to the groups of its neigbhors
-def determine_group(names_data, k_neigbhor, k):
+def determine_group(names_data_train, k_neigbhor, k):
 	k_neigbhor = k_neigbhor[1:k + 1]
 	groop = []
 	for neigbhor in k_neigbhor:
-		groop.append(names_data[neigbhor[1]])
+		groop.append(names_data_train[neigbhor[1]])
 	return max(set(groop), key = groop.count)
 		
 
 #Send to check distance to determine the group	
-def knn(data_array, data_names, index, k):
+def knn(data_train, names_data_train, data_test, index, k):
 	k = k
-	k_neigbhor = array_distance(data_array, index, k)
-	groop = determine_group(data_names, k_neigbhor, k)
+	k_neigbhor = array_distance(data_train, data_test, index, k)
+	groop = determine_group(names_data_train, k_neigbhor, k)
 	return groop
 	
 
 #Calculate the prediction successes for all the data
-def loop_knn(data_array, data_names, k):
+def knn_on_array(data_train, names_data_train, data_test, names_data_test, k):
 	counter = 0
-	for index in range(len(data_array)):
-		group = knn(data_array, data_names, index, k)
-		if group == data_names[index]:
+	for index in range(len(data_test)):
+		group = knn(data_train, names_data_train, data_test, index, k)
+		if group == names_data_test[index]:
 			counter += 1
 	return counter
 	
 	
 #Test the prediction of each k 100 times, in order to find the best k
 def find_the_best_k(data_pairs, largest_k):
-	k = 1
 	precision = [0] * largest_k
-	while k < largest_k:
-		for i in range(100):
-			d_train, names_train, d_test, names_test = split_array(data_pairs)
-			precision[k] += loop_knn(d_train, names_train, k)
-		precision[k] = round(precision[k]/(len(d_train)), 2)
-		print("The k now is: ", k)
-		k += 1
+	for i in range(ITER_TRAIN):
+		k = 1
+		d_train, names_train, d_test, names_test = split_array(data_pairs)
+		while k < largest_k:
+			precision[k] += knn_on_array(d_train, names_train, d_test, names_test, k)
+			k += 1
+	for i in range(len(precision)):
+		precision[i] = round(precision[i]/(len(d_test)), 2)
 	print(precision)
 	max_presicion = max(precision)
 	best_k = precision.index(max_presicion)
-	return best_k, max_presicion
+	return best_k, max_presicion, precision
 	
+
+#Split the pairs array randomly to two sets: train arrays and test arrays  
+def split_array(data_pairs):
+	np.random.shuffle(data_pairs)
+	middle = int(len(data_pairs)*2/3)
+	d_train = data_pairs[:middle,0] 
+	names_train = data_pairs[:middle,1]
+	d_test = data_pairs[middle:,0] 
+	names_test = data_pairs[middle:,1]
+	return d_train, names_train, d_test, names_test
+
+
+#Split the pairs array to data array and names array  	
+def split_all_array(data_pairs):
+	data = data_pairs[:,0] 
+	names = data_pairs[:,1]
+	print("the len of data is: ", len(data))
+	return data, names
+
 
 #Collect the data into an array of pairs in order to shuffle the data 
 def pairs_array(data_array, data_names):
@@ -80,29 +100,24 @@ def pairs_array(data_array, data_names):
 	for ar in array:
 		data_pairs.append([data_array[ar], data_names[ar]])
 	return data_pairs
-
-
-#Split the pairs array randomly to two sets: train arrays and test arrays  
-def split_array(data_pairs):
-	middle = int(len(data_pairs)*2/3)
-	d_train = data_pairs[:middle,0] 
-	names_train = data_pairs[:middle,1]
-	d_test = data_pairs[middle:,0] 
-	names_test = data_pairs[middle:,1]
-	#print("The len of the test array is: ", len(d_test))
-	return d_train, names_train, d_test, names_test
+	
+	
+#Displaing the results on a coordinate system
+def display(precision):
+	precision1 = precision[1:]
+	xpos = np.arange(len(precision1))
+	plt.style.use('seaborn')
+	plt.bar(xpos, precision1)
+	#plt.plot(xpos, precision1 , color = 'r', linewidth=2)
+	plt.xticks(xpos, xpos)
+	plt.ylim([94,97])
+	plt.style.use('seaborn')
+	plt.title("The best k")
+	plt.legend(["k"])
+	plt.ylabel("k")
+	plt.show()
 
 	
-#Calculate the prediction successes for all the data
-#def loop_knn_pred(d_test, names_test, d_train, names_train, k):
-#	counter = 0
-#	for index in range(len(d_test)):
-#		group = knn(data_array, data_names, index, k)
-#		if group == data_names[index]:
-#			counter += 1
-#	return counter
-
-
 def main():
 	max_k = input("Enter the largest k that do you want to check: ")
 	
@@ -117,15 +132,10 @@ def main():
 	data_pairs[data_pairs == 'Iris-versicolor'] = 3
 	
      #Find the best k in the range between 1 and the chosen k
-	best_k, precision = find_the_best_k(data_pairs, int(max_k))
-	print("The best number k is: ", best_k, " and it succeeded to predict in ", precision, "% of the cases")
-	
-     #Check the precision of the model on a test train
-	d_train, names_train, d_test, names_test = split_array(data_pairs)
-	predict_grade = loop_knn(d_test, names_test, best_k)
-	print("The model is accurate in ", predict_grade, " from ", len(d_test), " cases, and the grade is: ", round(predict_grade/len(d_test)*100,2),"%")
-	
-	
+	best_k, max_precision, precision = find_the_best_k(data_pairs, int(max_k))
+	print("The best number k is: ", best_k, " and it succeeded to predict in ", max_precision, "% of the cases")
+	display(precision)
+		
 	
 if __name__=="__main__":
 	main()
