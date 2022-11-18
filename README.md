@@ -28,7 +28,9 @@ The program asks the user for a specific link to the Wikipedia website, as well 
 Output: 
 The program does the following:
 1. Downloads all the images from the selected Wikipedia page to its folder.
+
 2. Then it randomly selects a number of links - according to the number of the *width* argument - and recursively executes them.
+
 3. The process repeats itself a number of times - according to the number of the *depth* argument.
 
 # 4. Github repositories
@@ -40,7 +42,9 @@ the program requests as input the number of project pages on which it will run t
 
 Output: 
 1. The program will extract the requested number of jobs from the API into an array. 
+
 2. The program will initiate an array of pairs for the stars anf downloads data. 
+
 3. The program will then run a 'linear regression' model on these values to check the error of the straight line that provides the coefficient of determination in relation to these points, then display it on a graph.
 
 
@@ -72,7 +76,23 @@ The program performs 100 tests for each k value in the range between one and the
 
 At the end of the tests, the program selects the k-value that provided the highest accuracy, and returns the result of another test utilizing the k value received above, on an array that contains 1/3 of the data.
 
+# 7. Naive Bayes classification
 
-15/11/2022
+This program implements the Naive Bayes probabilistic model, the purpose of which is to characterize data according to their properties. In this program, we will first classify the data on a training set that will be randomly selected from the given data-set, and then we will choose the accuracy of the model in characterizing the data on the test set.
+
+input:
+The program uses a dataset from the file 'agaricus-lepiota.data', which holds data about different features of mushrooms (where for each feature there are several different options), as well as their  classification as 'poisonous' and 'non-poisonous'.
+
+output:
+1. The program splits the data into pairs of data - features alongside classification as poison/not poisonous 
+
+2. Splits the data randomly: 80% into an array to train the model, and 20% for testing the model.
+
+3. Training: the program extracts from the training set all the unique options that exist for each of the twenty-two attributes of the mushrooms, and initializes a nested dictionary for each attribute, within which is a nested dictionary for each option.
+In the next step, the program summarizes for each option the number of times it appeared for a poisonous and non-poisonous mushroom, and with this data performs the probability calculation according to Bayes' law for each and every possibility.
+
+Examination : After the model is trained, the program sends the test array for testing, performs a classification for each element in it, and counts and displays how many times the model gave a higher than fifty percent chance that the mushroom is indeed poisonous or less and the mushroom not poisonous as well as the percentage of success
+
+18/11/2022
 
 
