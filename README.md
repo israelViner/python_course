@@ -81,7 +81,7 @@ At the end of the tests, the program selects the k-value that provided the highe
 This program implements the Naive Bayes probabilistic model, the purpose of which is to characterize data according to their properties. In this program, we will first classify the data on a training set that will be randomly selected from the given data-set, and then we will choose the accuracy of the model in characterizing the data on the test set.
 
 input:
-The program uses a dataset from the file 'agaricus-lepiota.data', which holds data about different features of mushrooms (where for each feature there are several different options), as well as their  classification as 'poisonous' and 'non-poisonous'.
+The program uses a dataset from the file 'agaricus-lepiota.data', which holds data about different features of mushrooms (where for each feature there are several different options), as well as their  classification as 'poisonous' and 'non-poisonous' (Expansion: another program underwent substantial adjustments and changes to perform a classification into different varieties of irises according to a dataset on the sizes of the leaves. In this way, we illustrated that the model can be adapted to characterize different types of information through simple changes).
 
 output:
 1. The program splits the data into pairs of data - features alongside classification as poison/not poisonous 
