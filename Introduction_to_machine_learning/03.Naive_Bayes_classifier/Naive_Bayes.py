@@ -94,7 +94,7 @@ def pairs_array(data_array):
 def get_the_data():
 	with open("agaricus-lepiota.data", "r") as data:
 		data_read = csv.reader(data)
-		data_array = [row for row in data_read]
+		data_array = list(data_read)
 	return data_array
 	
 
@@ -112,7 +112,7 @@ def main():
       #Train the model
 	sum_poisoned, sum_not_poisoned = count_poisoned(training_array)
 	count_appearances = count_attributes(training_array, dict_attributes)
-	calculate_probabilities = attributes_probabilities(count_appearances, sum_poisoned, sum_not_poisoned)
+	calculate_probabilities = attributes_probabilities(count_appearances, sum_poisoned, sum_not_poisoned, 10**-10)
 	
       #Test the model
 	sum_test_poisoned, sum_test_not_poisoned = count_poisoned(testing_array)
